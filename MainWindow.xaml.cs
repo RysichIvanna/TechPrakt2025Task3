@@ -79,6 +79,11 @@ namespace lab
             _richTextBox.Document.Blocks.Clear();
         }
 
+        private void SaveChanges()
+        {
+            btnSave_Click(this, new RoutedEventArgs());
+        }
+
         private bool AskToSaveChanges()
         {
             if (!IsSaved)
@@ -86,12 +91,13 @@ namespace lab
                 MessageBoxResult result = MessageBox.Show("Do you want to save changes?", "Message", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    btnSave_Click(this, new RoutedEventArgs());
+                    SaveChanges();
                 }
                 return true;
             }
             return false;
         }
+
 
         private void AppClosing(object sender, RoutedEventArgs e)
         {
