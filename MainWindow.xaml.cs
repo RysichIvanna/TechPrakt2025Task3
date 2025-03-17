@@ -17,6 +17,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 using System.Xml.Linq;
@@ -221,54 +222,45 @@ value)
             MessageBox.Show($"File size: {Utilily.GetFileSize(_richTextBox)}");
         }
 
+        private void AddShape(Shape shape, int width = 0, int height = 0)
+        {
+            if (shape is Rectangle || shape is Ellipse)
+            {
+                shape.Width = width;
+                shape.Height = height;
+                shape.Fill = colorHandler.GetShapeColor();
+            }
+            else if (shape is Line line)
+            {
+                line.Stroke = colorHandler.GetShapeColor();
+                line.StrokeThickness = 2;
+                line.X1 = 50; line.Y1 = 50;
+                line.X2 = 150; line.Y2 = 150;
+            }
+
+            BlockUIContainer container = new BlockUIContainer(shape);
+            _richTextBox.Document.Blocks.Add(container);
+        }
+
         private void AddRectangle_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(widthTextBox.Text, out int width) && int.TryParse(heightTextBox.Text, out int height))
-            {
-                System.Windows.Shapes.Rectangle rectangle = new System.Windows.Shapes.Rectangle();
-                rectangle.Width = width;
-                rectangle.Height = height;
-                rectangle.Fill = colorHandler.GetShapeColor();
-
-                BlockUIContainer container = new BlockUIContainer(rectangle);
-                _richTextBox.Document.Blocks.Add(container);
-            }
+                AddShape(new Rectangle(), width, height);
             else
-            {
                 MessageBox.Show("Invalid width or height. Please enter valid numbers.");
-            }
         }
+
         private void AddCircle_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(widthTextBox.Text, out int width) && int.TryParse(heightTextBox.Text, out int height))
-            {
-                System.Windows.Shapes.Ellipse ellipse = new System.Windows.Shapes.Ellipse();
-                ellipse.Width = width;
-                ellipse.Height = height;
-                ellipse.Fill = colorHandler.GetShapeColor();
-
-                BlockUIContainer container = new BlockUIContainer(ellipse);
-                _richTextBox.Document.Blocks.Add(container);
-            }
+                AddShape(new Ellipse(), width, height);
             else
-            {
                 MessageBox.Show("Invalid width or height. Please enter valid numbers.");
-            }
         }
 
         private void AddLine_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Shapes.Line line = new System.Windows.Shapes.Line();
-            line.Stroke = colorHandler.GetShapeColor();
-            line.StrokeThickness = 2;
-
-            line.X1 = 50;
-            line.Y1 = 50;
-            line.X2 = 150;
-            line.Y2 = 150;
-
-            BlockUIContainer container = new BlockUIContainer(line);
-            _richTextBox.Document.Blocks.Add(container);
+            AddShape(new Line());
         }
 
         private void PickShapeColor_Click(object sender, RoutedEventArgs e)
