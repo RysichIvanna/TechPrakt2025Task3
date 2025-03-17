@@ -41,35 +41,8 @@ namespace lab
             _fontSize.SelectedItem = TextChangeHandler.FontSizes.First();
         }
 
-        private void btnOpen_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Document files (*.doc)|*.doc";
-            var result = dlg.ShowDialog();
-            TextRange textRange = new TextRange(_richTextBox.Document.ContentStart, _richTextBox.Document.ContentEnd);
-            if (result.Value)
-            {
-                SaveLoad.LoadDocumentFromFile(dlg.FileName, textRange);
-            }
-        }
-
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog savefile = new SaveFileDialog();
-
-            string currentDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            savefile.FileName = currentDateTime;
-
-            TextRange textRange = new TextRange(_richTextBox.Document.ContentStart, _richTextBox.Document.ContentEnd);
-
-            savefile.Filter = "Document files (*.doc)|*.doc";
-            if (savefile.ShowDialog() == true)
-            {
-                var result = SaveLoad.SaveDocumentToFile(savefile.FileName, textRange);
-                this.Title = $"{Utilily.GetFileNameFromPath(result.fileName)}";
-                IsSaved = result.isSaved;
-            }
-        }
+        private void btnOpen_Click(object sender, RoutedEventArgs e) => FileHandler.OpenFile(_richTextBox);
+        private void btnSave_Click(object sender, RoutedEventArgs e) => FileHandler.SaveFile(_richTextBox, this, ref IsSaved);
 
 
 

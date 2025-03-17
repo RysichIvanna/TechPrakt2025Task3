@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="ColorProps.cs" />
     <Compile Include="ColorHandler.cs" />
+    <Compile Include="FileHandler.cs" />
     <Compile Include="SaveLoad.cs" />
     <Compile Include="TextChangeHandler.cs" />
     <Compile Include="Utilily.cs" />
